@@ -1,5 +1,12 @@
 <?php include 'page/header.php'?>
 
+<?php
+    include_once "model/conexion.php";
+    $sentencia = $bd -> query("select * from productos");
+    $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
+    //print_r($persona);
+?>
+
 <html>
   <body>
     <div class="container mt-5">
@@ -91,11 +98,10 @@
 
                             <tr>
                                 <td scope="row"><?php echo $dato->id; ?></td>
-                                <td><?php echo $dato->nombres; ?></td>
-                                <td><?php echo $dato->apellido_paterno; ?></td>
-                                <td><?php echo $dato->apellido_materno; ?></td>
-                                <td><?php echo $dato->fecha_nacimiento; ?></td>
-                                <td><?php echo $dato->celular; ?></td>
+                                <td><?php echo $dato->nombreProducto; ?></td>
+                                <td><?php echo $dato->precioProducto; ?></td>
+                                <td><?php echo $dato->cantidad; ?></td>
+                                <td><?php echo $dato->descripcion; ?></td>
                                 <td><a class="text-success" href="editar.php?codigo=<?php echo $dato->id; ?>"><i class="bi bi-pencil-square"></i></a></td>
                                 <td><a onclick="return confirm('Estas seguro de eliminar?');" class="text-danger" href="eliminar.php?codigo=<?php echo $dato->id; ?>"><i class="bi bi-trash"></i></a></td>
                             </tr>
