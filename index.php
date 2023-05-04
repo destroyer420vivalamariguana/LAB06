@@ -4,6 +4,11 @@
     include_once "model/conexion.php";
     $sentencia = $bd -> query("select * from productos");
     $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
+    $sql = "SELECT COUNT(id) as total FROM productos";
+    $statement = $bd->prepare($sql);
+    $statement->execute();
+    $resultado = $statement->fetch(PDO::FETCH_ASSOC);
+    $total_registros = $resultado['total'];
     //print_r($persona);
 ?>
 
@@ -114,15 +119,15 @@
                         <tbody>
                             
                             <?php 
+                            $orden=0;
                                 foreach($productos as $dato){ 
+                                    $orden=$orden+1;
                             ?>
 
                             <tr>
-                                <?php
-                                $editar=false;
-                                if(!$editar){
-                                ?>
-                                <td scope="row"><?php echo $dato->id; ?></td>
+                                <td scope="row"><?php 
+                                echo $orden;
+                                 ?></td>
                                 <td><?php echo $dato->nombreProducto; ?></td>
                                 <td><?php echo $dato->precioProducto; ?></td>
                                 <td><?php echo $dato->cantidad; ?></td>
@@ -131,69 +136,90 @@
                                 <a class="text-success" data-bs-toggle="modal" data-bs-target="#message<?php echo $dato->id;?>"><i class="bi bi-pencil-square"></i>
                                 </a>
                                 <div class="modal fade" id="message<?php echo $dato->id;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <?php 
-                                            $id = $dato->id;
-                                            $sentencia = $bd->prepare("select * from productos where id = ?;");
-                                            $sentencia->execute([$id]);
-                                            
-                                            $producto = $sentencia->fetch(PDO::FETCH_OBJ);
-                                            
-                                        ?>
-                                        <form class="p-4" method="POST" action="editar.php">
-                                            <div class="mb-3">
-                                                <label class="form-label">Nombre del Producto: </label>
-                                                <input type="text" class="form-control" name="txtNombres" required 
-                                                value="<?php echo $producto->nombreProducto; ?>">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Precio del Producto: </label>
-                                                <input type="text" class="form-control" name="txtPrecio" required 
-                                                value="<?php echo $producto->precioProducto; ?>">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Cantidad: </label>
-                                                <input type="text" class="form-control" name="txtCantidad" required 
-                                                value="<?php echo $producto->cantidad; ?>">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Descripcion del Producto: </label>
-                                                <input type="text" class="form-control" name="txtDescripcion" required 
-                                                value="<?php echo $producto->descripcion; ?>">
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <div class="d-grid">
-                                            <input type="hidden" name="codigo" value="<?php echo $producto->id; ?>">
-                                            <input type="submit" class="btn btn-primary" data-bs-dismiss="modal"value="Editar">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        </form>
+                                        <div class="modal-body">
+                                            <?php 
+                                                $id = $dato->id;
+                                                $sentencia = $bd->prepare("select * from productos where id = ?;");
+                                                $sentencia->execute([$id]);
+                                                
+                                                $producto = $sentencia->fetch(PDO::FETCH_OBJ);
+                                                
+                                            ?>
+                                            <form class="p-4" method="POST" action="editar.php">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nombre del Producto: </label>
+                                                    <input type="text" class="form-control" name="txtNombres" required 
+                                                    value="<?php echo $producto->nombreProducto; ?>">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Precio del Producto: </label>
+                                                    <input type="number" class="form-control" name="txtPrecio" required 
+                                                    value="<?php echo $producto->precioProducto; ?>">
+                                                    
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Cantidad: </label>
+                                                    <input type="number" class="form-control" name="txtCantidad" required 
+                                                    value="<?php echo $producto->cantidad; ?>">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Descripcion del Producto: </label>
+                                                    <input type="text" class="form-control" name="txtDescripcion" required 
+                                                    value="<?php echo $producto->descripcion; ?>">
+                                                </div>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <div class="d-grid">
+                                                <input type="hidden" name="codigo" value="<?php echo $producto->id; ?>">
+                                                <input type="submit" class="btn btn-primary" data-bs-dismiss="modal"value="Editar">
+                                            </div>
+                                            </form>
+                                        </div>
+                                        </div>
                                     </div>
-                                    </div>
-                                </div>
                                 </div>
 
                                 </td>
-                                <td><a onclick="return confirm('Estas seguro de eliminar?');" class="text-danger" href="eliminar.php?codigo=<?php echo $dato->id; ?>"><i class="bi bi-trash"></i></a></td>
-                                <?php 
-                                }else{
-                                ?>
-                                <td scope="row"><?php echo $dato->id; ?></td>
-                                <td><input></input></td>
-                                <td><input></input></td>
-                                <td><input></input></td>
-                                <td><input></input></td>
-                                <?php
-                                }
-                                ?>
+                                <td><a class="text-danger" data-bs-toggle="modal" data-bs-target="#message<?php echo $dato->id;?>"><i class="bi bi-trash"></i></a></td>
+                                <div class="modal fade" id="message<?php echo $dato->id;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?php 
+                                                $id = $dato->id;
+                                                $sentencia = $bd->prepare("select * from productos where id = ?;");
+                                                $sentencia->execute([$id]);
+                                                
+                                                $producto = $sentencia->fetch(PDO::FETCH_OBJ);
+                                                
+                                            ?>
+
+                                            <h4>
+                                                Estas seguro de que quieres eliminar: <?php echo $producto->nombreProducto." ?"?> 
+                                            </h4>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <div class="d-grid">
+                                            <a class="btn btn-danger" data-bs-dismiss="modal" onclick="window.location.href='eliminar.php?codigo=<?php echo $id;?>'">Confirmar</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
 
                             <?php 
@@ -254,7 +280,36 @@
             </div>
             <div class="col-md-2">
                 <div class="d-grid">
-                    <a onclick="return confirm('Confirmar compra');" class="btn btn-primary" href="comprar.php"> Comprar</a>
+                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#message"> Comprar</a>
+                    <div class="modal fade" id="message" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirmar Compra</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+
+                                            <h4>
+                                                Confirma compra de: 
+                                                <?php 
+                                                foreach($productos as $producto){
+                                                    echo $producto->nombreProducto. "por " $producto->precio;
+                                                }
+                                                ?> 
+                                            </h4>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <div class="d-grid">
+                                            <a class="btn btn-danger" data-bs-dismiss="modal" onclick="window.location.href='eliminar.php?codigo=<?php echo $id;?>'">Confirmar</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                 </div>
             </div>
             <div class="col-md-2">
