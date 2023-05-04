@@ -178,7 +178,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             <div class="d-grid">
-                                                <input type="hidden" name="codigo" value="<?php echo $producto->id_item; ?>">
+                                                <input type="hidden" name="codigo" value="<?php echo $producto->id; ?>">
                                                 <input type="submit" class="btn btn-primary" data-bs-dismiss="modal"value="Editar">
                                             </div>
                                             </form>

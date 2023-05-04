@@ -9,8 +9,8 @@
         header('Location: index.php?mensaje=error');
       }
       while($articuloAcambiar=$sentenciaItemParaCambiar->fetch()){
-        $sentencia = $bd->prepare("UPDATE productos SET nombreProducto = ?, precioProducto = ?, cantidad = ?,descripcion = ? where id_item = ?;");
-        $resultado = $sentencia->execute([$articuloAcambiar["nombre"], $articuloAcambiar["precio"], $cantidad, $articuloAcambiar["url_image"], $codigo]);
+        $sentencia = $bd->prepare("UPDATE productos SET id_item=?,nombreProducto = ?, precioProducto = ?, cantidad = ?,descripcion = ? where id= ?;");
+        $resultado = $sentencia->execute([$articuloAcambiar["id_articulo"],$articuloAcambiar["nombre"], $articuloAcambiar["precio"], $cantidad, $articuloAcambiar["url_image"],$codigo]);
     
         if ($resultado === TRUE) {
             header('Location: index.php?mensaje=editado');
