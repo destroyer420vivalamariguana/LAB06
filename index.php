@@ -13,6 +13,9 @@
 ?>
 
 <html>
+    <head>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
   <body>
     <div class="container mt-5">
     <div class="row justify-content-center">
@@ -131,11 +134,11 @@
                                 <td><?php echo $dato->nombreProducto; ?></td>
                                 <td><?php echo $dato->precioProducto; ?></td>
                                 <td><?php echo $dato->cantidad; ?></td>
-                                <td><?php echo $dato->descripcion; ?></td>
+                                <td class="imagen"><img src="<?php echo $dato->descripcion; ?>" class="card-img-top" alt="<?php echo $dato->descripcion; ?>"></td>
                                 <td>    
-                                <a class="text-success" data-bs-toggle="modal" data-bs-target="#message<?php echo $dato->id;?>"><i class="bi bi-pencil-square"></i>
+                                <a class="text-success" data-bs-toggle="modal" data-bs-target="#editar<?php echo $dato->id;?>"><i class="bi bi-pencil-square"></i>
                                 </a>
-                                <div class="modal fade" id="message<?php echo $dato->id;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="editar<?php echo $dato->id;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                         <div class="modal-header">
@@ -152,33 +155,30 @@
                                                 
                                             ?>
                                             <form class="p-4" method="POST" action="editar.php">
+                                                
                                                 <div class="mb-3">
-                                                    <label class="form-label">Nombre del Producto: </label>
-                                                    <input type="text" class="form-control" name="txtNombres" required 
-                                                    value="<?php echo $producto->nombreProducto; ?>">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Precio del Producto: </label>
-                                                    <input type="number" class="form-control" name="txtPrecio" required 
-                                                    value="<?php echo $producto->precioProducto; ?>">
-                                                    
+                                                    <label class="form-label">Cambiar a: </label>
+                                                    <select name="txtNombre" class="form-select">
+
+                                                        <?php 
+                                                            $consulta = $bd->query('SELECT * FROM articulos;');
+                                                            $articulos = $consulta->fetchAll(PDO::FETCH_OBJ);
+                                                            foreach ($articulos as $articulo) { ?>
+                                                                <option value="<?php echo $articulo->nombre; ?>"><?php echo $articulo->nombre; ?></option>
+                                                        <?php } ?>
+                                                    </select>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Cantidad: </label>
                                                     <input type="number" class="form-control" name="txtCantidad" required 
                                                     value="<?php echo $producto->cantidad; ?>">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Descripcion del Producto: </label>
-                                                    <input type="text" class="form-control" name="txtDescripcion" required 
-                                                    value="<?php echo $producto->descripcion; ?>">
-                                                </div>
                                             
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             <div class="d-grid">
-                                                <input type="hidden" name="codigo" value="<?php echo $producto->id; ?>">
+                                                <input type="hidden" name="codigo" value="<?php echo $producto->id_item; ?>">
                                                 <input type="submit" class="btn btn-primary" data-bs-dismiss="modal"value="Editar">
                                             </div>
                                             </form>
@@ -233,33 +233,28 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    Registra el producto:
+            
+        <h2 class="col-xs-12 center-block text-center">Artículos</h2>
+        <div class="row">
+            <?php 
+            $consulta = $bd->query('SELECT * FROM articulos;');
+            $articulos = $consulta->fetchAll(PDO::FETCH_OBJ);
+            foreach ($articulos as $articulo) { ?>
+            <div class="col-sm-4">
+            <div class="card mb-3">
+                <img src="<?php echo $articulo->url_image; ?>" class="card-img-top" alt="<?php echo $articulo->articulo; ?>" width="200" height="120">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo $articulo->nombre; ?></h5>
+                    <p class="card-text">S/.<?php echo $articulo->precio; ?></p>
+                    <button class="btn btn-primary" onclick="window.location.href='agregar.php?codigo=<?php echo $articulo->id_articulo?>'">Agregar</button>
                 </div>
-                <form class="p-4" method="POST" action="registrar.php">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre del Producto: </label>
-                        <input type="text" class="form-control" name="txtNombreProducto" autofocus required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Precio del Producto: </label>
-                        <input type="text" class="form-control" name="txtPrecioProducto" autofocus required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Cantidad: </label>
-                        <input type="number" class="form-control" name="txtCantidad" autofocus required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Descripción: </label>
-                        <input type="text" class="form-control" name="txtDescripcion" autofocus required>
-                    </div>
-                    <div class="d-grid">
-                        <input type="hidden" name="oculto" value="1">
-                        <input type="submit" class="btn btn-primary" value="Registrar Producto">
-                    </div>
-                </form>
             </div>
+        </div>
+
+            <?php } ?>
+        </div>
+
+            
         </div>
         <div class="row text-start">
             <div class="col-md-4">
@@ -294,9 +289,7 @@
                                             <h4>
                                                 Confirma compra de: 
                                                 <?php 
-                                                foreach($productos as $producto){
-                                                    echo $producto->nombreProducto. "por " $producto->precio;
-                                                }
+                                                
                                                 ?> 
                                             </h4>
                                             

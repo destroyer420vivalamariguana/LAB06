@@ -1,18 +1,23 @@
 <?php
     include 'model/conexion.php';
     $codigo = $_POST['codigo'];
-    $nombres = $_POST['txtNombres'];
-    $precio = $_POST['txtPrecio'];
     $cantidad = $_POST['txtCantidad'];
-    $descripcion = $_POST['txtDescripcion'];
+    $nombre = $_POST['txtNombre'];
 
-    $sentencia = $bd->prepare("UPDATE productos SET nombreProducto = ?, precioProducto = ?, cantidad = ?,descripcion = ? where id = ?;");
-    $resultado = $sentencia->execute([$nombres, $precio, $cantidad, $descripcion, $codigo]);
-
-    if ($resultado === TRUE) {
-        header('Location: index.php?mensaje=editado');
-    } else {
+    $sentenciaItemParaCambiar=$bd->query("SELECT * FROM articulos where nombre='$nombre'");
+    if (!$sentenciaItemParaCambiar) {
         header('Location: index.php?mensaje=error');
-        exit();
-    }
+      }
+      while($articuloAcambiar=$sentenciaItemParaCambiar->fetch()){
+        $sentencia = $bd->prepare("UPDATE productos SET nombreProducto = ?, precioProducto = ?, cantidad = ?,descripcion = ? where id_item = ?;");
+        $resultado = $sentencia->execute([$articuloAcambiar["nombre"], $articuloAcambiar["precio"], $cantidad, $articuloAcambiar["url_image"], $codigo]);
+    
+        if ($resultado === TRUE) {
+            header('Location: index.php?mensaje=editado');
+        } else {
+            header('Location: index.php?mensaje=error');
+            exit();
+        }
+      }
+
 ?>
