@@ -12,3 +12,6 @@
     object-fit: cover;
     text-align: center;
 }
+.alado{
+    display: flex;
+}

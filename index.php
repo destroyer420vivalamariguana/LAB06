@@ -273,6 +273,11 @@
                     ?>    
                 </h1>              
             </div>
+            <?php 
+                $sentencia = $bd -> query("select * from productos");
+                $filas=$sentencia->rowCount();
+                if($filas>0){
+            ?>
             <div class="col-md-2">
                 <div class="d-grid">
                     <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#message"> Comprar</a>
@@ -287,10 +292,20 @@
 
 
                                             <h4>
-                                                Confirma compra de: 
+                                                Confirma compra de: <br>
+                                                <ul>
+
                                                 <?php 
-                                                
-                                                ?> 
+                                                    $sentencia = $bd -> query("select * from productos");
+                                                    $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
+
+                                                    foreach($productos as $producto){
+                                                        $subtotal=$producto->cantidad*$producto->precioProducto;?>
+                                                        
+                                                        <li><?php echo $producto->cantidad. " ". $producto->nombreProducto. " por S/.". $subtotal;?>
+                                                        <?php
+                                                    }?> 
+                                                </ul>
                                             </h4>
                                             
                                         </div>
@@ -304,12 +319,29 @@
                                     </div>
                                 </div>
                 </div>
+
             </div>
             <div class="col-md-2">
                 <div class="d-grid">
                     <a class="btn btn-primary" href="vaciar.php"> Vaciar</a>
                 </div>
             </div>
+            <?php
+                    }else{
+                ?>
+                <div class="col-md-2">
+                <div class="d-grid">
+                    <button class="btn btn-primary" disabled> Comprar</button>
+                </div>
+            </div>
+                <div class="col-md-2">
+                <div class="d-grid">
+                    <button class="btn btn-primary" disabled> Vaciar</button>
+                </div>
+            </div>
+                <?php
+                    }
+                ?>
         </div>
     </div>
 
