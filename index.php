@@ -11,7 +11,7 @@
   <body>
     <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-7">
+        <div class="col-md-8">
             <!-- inicio alerta -->
             <?php 
                 if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'falta'){
@@ -55,7 +55,7 @@
                 if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'editado'){
             ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Cambiado!</strong> Los datos fueron actualizados.
+            <strong>Cambiado!</strong> Articulo Actualizado.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php 
@@ -74,6 +74,27 @@
                 }
             ?> 
 
+            <?php 
+                if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'vaciado'){
+            ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Eliminado!</strong> Carrito Vaciado.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php 
+                }
+            ?> 
+
+            <?php 
+                if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'comprado'){
+            ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Eliminado!</strong> Compra realizada.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php 
+                }
+            ?> 
             <!-- fin alerta -->
             <div class="card">
                 <div class="card-header">
@@ -93,17 +114,86 @@
                         <tbody>
                             
                             <?php 
-                                foreach($persona as $dato){ 
+                                foreach($productos as $dato){ 
                             ?>
 
                             <tr>
+                                <?php
+                                $editar=false;
+                                if(!$editar){
+                                ?>
                                 <td scope="row"><?php echo $dato->id; ?></td>
                                 <td><?php echo $dato->nombreProducto; ?></td>
                                 <td><?php echo $dato->precioProducto; ?></td>
                                 <td><?php echo $dato->cantidad; ?></td>
                                 <td><?php echo $dato->descripcion; ?></td>
-                                <td><a class="text-success" href="editar.php?codigo=<?php echo $dato->id; ?>"><i class="bi bi-pencil-square"></i></a></td>
+                                <td>    
+                                <a class="text-success" data-bs-toggle="modal" data-bs-target="#message<?php echo $dato->id;?>"><i class="bi bi-pencil-square"></i>
+                                </a>
+                                <div class="modal fade" id="message<?php echo $dato->id;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <?php 
+                                            $id = $dato->id;
+                                            $sentencia = $bd->prepare("select * from productos where id = ?;");
+                                            $sentencia->execute([$id]);
+                                            
+                                            $producto = $sentencia->fetch(PDO::FETCH_OBJ);
+                                            
+                                        ?>
+                                        <form class="p-4" method="POST" action="editar.php">
+                                            <div class="mb-3">
+                                                <label class="form-label">Nombre del Producto: </label>
+                                                <input type="text" class="form-control" name="txtNombres" required 
+                                                value="<?php echo $producto->nombreProducto; ?>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Precio del Producto: </label>
+                                                <input type="text" class="form-control" name="txtPrecio" required 
+                                                value="<?php echo $producto->precioProducto; ?>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Cantidad: </label>
+                                                <input type="text" class="form-control" name="txtCantidad" required 
+                                                value="<?php echo $producto->cantidad; ?>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Descripcion del Producto: </label>
+                                                <input type="text" class="form-control" name="txtDescripcion" required 
+                                                value="<?php echo $producto->descripcion; ?>">
+                                            </div>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <div class="d-grid">
+                                            <input type="hidden" name="codigo" value="<?php echo $producto->id; ?>">
+                                            <input type="submit" class="btn btn-primary" data-bs-dismiss="modal"value="Editar">
+                                        </div>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                </td>
                                 <td><a onclick="return confirm('Estas seguro de eliminar?');" class="text-danger" href="eliminar.php?codigo=<?php echo $dato->id; ?>"><i class="bi bi-trash"></i></a></td>
+                                <?php 
+                                }else{
+                                ?>
+                                <td scope="row"><?php echo $dato->id; ?></td>
+                                <td><input></input></td>
+                                <td><input></input></td>
+                                <td><input></input></td>
+                                <td><input></input></td>
+                                <?php
+                                }
+                                ?>
                             </tr>
 
                             <?php 
@@ -124,19 +214,19 @@
                 <form class="p-4" method="POST" action="registrar.php">
                     <div class="mb-3">
                         <label class="form-label">Nombre del Producto: </label>
-                        <input type="text" class="form-control" name="txtNombres" autofocus required>
+                        <input type="text" class="form-control" name="txtNombreProducto" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Precio del Producto: </label>
-                        <input type="text" class="form-control" name="txtApPaterno" autofocus required>
+                        <input type="text" class="form-control" name="txtPrecioProducto" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Cantidad: </label>
-                        <input type="text"" class="form-control" name="txtApMaterno" autofocus required>
+                        <input type="number" class="form-control" name="txtCantidad" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Descripción: </label>
-                        <input type="number" class="form-control" name="txtCelular" autofocus required>
+                        <input type="text" class="form-control" name="txtDescripcion" autofocus required>
                     </div>
                     <div class="d-grid">
                         <input type="hidden" name="oculto" value="1">
@@ -145,7 +235,37 @@
                 </form>
             </div>
         </div>
+        <div class="row text-start">
+            <div class="col-md-4">
+                 <h1>
+                    Total a Pagar: <?php 
+                    $consulta= $bd -> query("select * from productos");
+                    $precios = $consulta->fetchAll(PDO::FETCH_OBJ);
+                    $total=0;
+                    foreach($precios as $dato){
+                        $precio=$dato->precioProducto;
+                        $cantidad=$dato->cantidad;
+                        $subtotal=$precio*$cantidad;
+                        $total=$total+$subtotal;
+                    }
+                    echo $total
+                    ?>    
+                </h1>              
+            </div>
+            <div class="col-md-2">
+                <div class="d-grid">
+                    <a onclick="return confirm('Confirmar compra');" class="btn btn-primary" href="comprar.php"> Comprar</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="d-grid">
+                    <a class="btn btn-primary" href="vaciar.php"> Vaciar</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </div>
 
 <?php include 'page/footer.php'?>
