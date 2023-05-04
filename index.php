@@ -170,7 +170,7 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Cantidad: </label>
-                                                    <input type="number" class="form-control" name="txtCantidad" required 
+                                                    <input type="number" class="form-control" required min="0" name="txtCantidad" required 
                                                     value="<?php echo $producto->cantidad; ?>">
                                                 </div>
                                             
@@ -179,7 +179,7 @@
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             <div class="d-grid">
                                                 <input type="hidden" name="codigo" value="<?php echo $producto->id; ?>">
-                                                <input type="submit" class="btn btn-primary" data-bs-dismiss="modal"value="Editar">
+                                                <input type="submit" class="btn btn-primary" value="Editar">
                                             </div>
                                             </form>
                                         </div>
