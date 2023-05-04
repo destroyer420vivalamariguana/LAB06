@@ -151,12 +151,12 @@
                                                 $sentencia = $bd->prepare("select * from productos where id = ?;");
                                                 $sentencia->execute([$id]);
                                                 
-                                                $producto = $sentencia->fetch(PDO::FETCH_OBJ);
+                                                $producto = $sentencia->fetch();
                                                 
                                             ?>
                                             <form class="p-4" method="POST" action="editar.php">
-                                                
-                                                <div class="mb-3">
+                                            
+<!--                                                 <div class="mb-3">
                                                     <label class="form-label">Cambiar a: </label>
                                                     <select name="txtNombre" class="form-select">
 
@@ -164,21 +164,21 @@
                                                             $consulta = $bd->query('SELECT * FROM articulos;');
                                                             $articulos = $consulta->fetchAll(PDO::FETCH_OBJ);
                                                             foreach ($articulos as $articulo) { ?>
-                                                                <option value="<?php echo $articulo->nombre; ?>"><?php echo $articulo->nombre; ?></option>
+                                                                <option value="<?php echo $articulo->nombre; ?>"><?php echo $producto["nombreProducto"]; ?></option>
                                                         <?php } ?>
                                                     </select>
-                                                </div>
+                                                </div> -->
                                                 <div class="mb-3">
                                                     <label class="form-label">Cantidad: </label>
                                                     <input type="number" class="form-control" required min="0" name="txtCantidad" required 
-                                                    value="<?php echo $producto->cantidad; ?>">
+                                                    value="<?php echo $producto["cantidad"]; ?>">
                                                 </div>
                                             
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             <div class="d-grid">
-                                                <input type="hidden" name="codigo" value="<?php echo $producto->id; ?>">
+                                                <input type="hidden" name="codigo" value="<?php echo $producto["id"]; ?>">
                                                 <input type="submit" class="btn btn-primary" value="Editar">
                                             </div>
                                             </form>
