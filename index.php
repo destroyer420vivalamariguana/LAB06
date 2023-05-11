@@ -288,47 +288,47 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Confirmar Compra</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
+                                        <form method="POST" action="enviar.php">
+                                            <div class="modal-body">
+                                                <h4>
+                                                    Confirma compra de: <br> <br>
 
+                                                    
 
-                                            <h4>
-                                                Confirma compra de: <br> <br>
+                                                        <div class="formulario-api">
+                                                            <label for="">Nombres</label> <br>
+                                                            <input type="text" name="nombre" class="form-control" placeholder="Ingrese Nombres"> <br>
+                                                            <label for="">Telefono/Celular</label> <br>
+                                                            <input type="text" name="celular" class="form-control" placeholder="Ingrese Número"> <br>
+                                                        </div>
 
-                                                <form>
+                                                    
+                                                    
+                                                    Por la compra de:
 
-                                                    <div class="formulario-api">
-                                                        <label for="">Nombres</label> <br>
-                                                        <input type="text" class="form-control" placeholder="Ingrese Nombres"> <br>
-                                                        <label for="">Telefono/Celular</label> <br>
-                                                        <input type="text" class="form-control" placeholder="Ingrese Número"> <br>
-                                                    </div>
+                                                    <ul>
 
-                                                </form>
+                                                    <?php 
+                                                        $sentencia = $bd -> query("select * from productos");
+                                                        $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
+
+                                                        foreach($productos as $producto){
+                                                            $subtotal=$producto->cantidad*$producto->precioProducto;?>
+                                                            
+                                                            <li><?php echo $producto->cantidad. " ". $producto->nombreProducto. " por S/.". $subtotal;?>
+                                                            <?php
+                                                        }?> 
+                                                    </ul>
+                                                </h4>
                                                 
-                                                Por la compra de:
-
-                                                <ul>
-
-                                                <?php 
-                                                    $sentencia = $bd -> query("select * from productos");
-                                                    $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
-
-                                                    foreach($productos as $producto){
-                                                        $subtotal=$producto->cantidad*$producto->precioProducto;?>
-                                                        
-                                                        <li><?php echo $producto->cantidad. " ". $producto->nombreProducto. " por S/.". $subtotal;?>
-                                                        <?php
-                                                    }?> 
-                                                </ul>
-                                            </h4>
-                                            
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <div class="d-grid">
-                                            <a class="btn btn-success " data-bs-dismiss="modal" onclick="window.location.href='eliminar.php?codigo=<?php echo $id;?>'">Confirmar</a>
                                             </div>
-                                        </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <div class="d-grid">
+                                                <button class="btn btn-success" type="submit">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
