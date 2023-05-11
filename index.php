@@ -284,7 +284,7 @@
                     <div class="modal fade" id="message" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                        <div class="modal-header">
+                                        <div class="modal-header p-3 mb-2 bg-success text-white">
                                             <h5 class="modal-title" id="exampleModalLabel">Confirmar Compra</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
@@ -292,7 +292,21 @@
 
 
                                             <h4>
-                                                Confirma compra de: <br>
+                                                Confirma compra de: <br> <br>
+
+                                                <form>
+
+                                                    <div class="formulario-api">
+                                                        <label for="">Nombres</label> <br>
+                                                        <input type="text" class="form-control" placeholder="Ingrese Nombres"> <br>
+                                                        <label for="">Telefono/Celular</label> <br>
+                                                        <input type="text" class="form-control" placeholder="Ingrese Número"> <br>
+                                                    </div>
+
+                                                </form>
+                                                
+                                                Por la compra de:
+
                                                 <ul>
 
                                                 <?php 
@@ -312,7 +326,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                             <div class="d-grid">
-                                            <a class="btn btn-danger" data-bs-dismiss="modal" onclick="window.location.href='eliminar.php?codigo=<?php echo $id;?>'">Confirmar</a>
+                                            <a class="btn btn-success " data-bs-dismiss="modal" onclick="window.location.href='eliminar.php?codigo=<?php echo $id;?>'">Confirmar</a>
                                             </div>
                                         </div>
                                         </div>
