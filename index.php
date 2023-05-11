@@ -293,8 +293,6 @@
                                                 <h4>
                                                     Confirma compra de: <br> <br>
 
-                                                    
-
                                                         <div class="formulario-api">
                                                             <label for="">Nombres</label> <br>
                                                             <input type="text" name="nombre" class="form-control" placeholder="Ingrese Nombres"> <br>
