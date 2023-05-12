@@ -7,6 +7,7 @@ include 'model/conexion.php';
 
 $celular = $_POST['celular'];
 $nombre= $_POST["nombre"];
+$celularTrim=str_replace(" ","",$celular);
 
 $url = 'https://api.green-api.com/waInstance1101818023/SendFileByUpload/02bc785ba8d946eb976fee5b7613ef37460ed0539605472481';
 
@@ -25,9 +26,9 @@ foreach($productos as $producto){
     $detalles=$detalles."- ".$producto->cantidad. " ". $producto->nombreProducto. " por S/.". $subtotal."\n";
     $total=$total+$subtotal;
 }
-echo $detalles;
+//echo $detalles;
 $payload = array(
-    'chatId' => "51".$celular."@c.us",
+    'chatId' => "51".$celularTrim."@c.us",
     'caption' => "*_BOLETA DE PAGO_* \n\n"
     . "*A Nombre de:* _".$nombre."_\n\n"
     . "*Fecha de emisión:* "."_".$fecha."_\n\n"
@@ -59,6 +60,8 @@ if ($response === false) {
 }else{
     curl_close($ch);
     echo $response;
+    echo $celular ."<br>";
+    echo $celularTrim ."<br>";
     include("comprar.php");
     header('Location: index.php');
 }
