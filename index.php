@@ -96,8 +96,8 @@
             <?php 
                 if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'comprado'){
             ?>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Eliminado!</strong> Compra realizada.
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Compra Realizada!</strong> Se envió su boleta.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php 
@@ -324,6 +324,7 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                                 <div class="d-grid">
                                                 <button class="btn btn-success" type="submit">Confirmar</a>
+
                                                 </div>
                                             </div>
                                         </form>

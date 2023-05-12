@@ -60,7 +60,7 @@ if ($response === false) {
     curl_close($ch);
     echo $response;
     include("comprar.php");
-    header('Location: index.php');
+    header('Location: index.php?mensaje=comprado');
 }
 
 
