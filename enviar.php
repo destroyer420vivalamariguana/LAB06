@@ -8,9 +8,9 @@ include 'model/conexion.php';
 $celular = $_POST['celular'];
 $nombre= $_POST["nombre"];
 
-$url = 'https://api.green-api.com/waInstance1101818587/SendFileByUpload/bc5b6f845f1e42f9b30d4acff8e71d0f127962e6bea14b248c';
+$url = 'https://api.green-api.com/waInstance1101818023/SendFileByUpload/02bc785ba8d946eb976fee5b7613ef37460ed0539605472481';
 
-$filePath = 'page\apu.jpg';
+$filePath = 'page/apu2.png';
 
 $fileHandle = fopen($filePath, 'r');
 
@@ -37,7 +37,7 @@ $payload = array(
     . "Gracias por su compra."
 );
 $files = array(
-    'file' => new CURLFile($filePath, 'image/jpg', 'apu.jpg')
+    'file' => new CURLFile($filePath, 'image/png', 'apu2.png')
 );
 $data = array_merge($payload, $files);
 $headers = array();
