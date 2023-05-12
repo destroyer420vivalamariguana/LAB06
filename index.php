@@ -288,7 +288,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Confirmar Compra</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form method="POST" action="enviar.php" id="form">
+                                        <form method="POST" action="enviar.php" id="formulario">
                                             <div class="modal-body">
                                                 <h4>
                                                     Confirma compra de: <br> <br>
@@ -337,7 +337,7 @@
                                                             alert('Por favor, completa todos los campos.');
                                                         } else {
                                                             // Si los campos están llenos, enviar el formulario
-                                                            document.getElementById('form').submit();
+                                                            document.getElementById('formulario').submit();
                                                         }
                                                     }
                                                 </script>
