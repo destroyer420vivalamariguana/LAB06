@@ -288,16 +288,16 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Confirmar Compra</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form method="POST" action="enviar.php">
+                                        <form method="POST" action="enviar.php" id="form">
                                             <div class="modal-body">
                                                 <h4>
                                                     Confirma compra de: <br> <br>
 
                                                         <div class="formulario-api">
                                                             <label for="">Nombres</label> <br>
-                                                            <input type="text" name="nombre" class="form-control" placeholder="Ingrese Nombres"> <br>
+                                                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese Nombres"> <br>
                                                             <label for="">Telefono/Celular</label> <br>
-                                                            <input type="text" name="celular" class="form-control" placeholder="Ingrese Número"> <br>
+                                                            <input type="text" id="celular" name="celular" class="form-control" placeholder="Ingrese Número"> <br>
                                                         </div>
 
                                                     
@@ -323,7 +323,24 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                                 <div class="d-grid">
-                                                <button class="btn btn-success" type="submit">Confirmar</a>
+                                                <button class="btn btn-success" onclick="validarForm(event)" type="submit">Confirmar</a>
+                                                <script>
+                                                    function validarForm(event) {
+                                                        event.preventDefault(); // Evitar el envío del formulario si no está validado
+
+                                                        // Obtener los valores de los campos
+                                                        var campo1 = document.getElementById('nombre').value;
+                                                        var campo2 = document.getElementById('celular').value;
+
+                                                        // Verificar si los campos están llenos
+                                                        if (campo1.trim() === '' || campo2.trim() === '') {
+                                                            alert('Por favor, completa todos los campos.');
+                                                        } else {
+                                                            // Si los campos están llenos, enviar el formulario
+                                                            document.getElementById('form').submit();
+                                                        }
+                                                    }
+                                                </script>
                                                 </div>
                                             </div>
                                         </form>
