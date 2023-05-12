@@ -288,16 +288,16 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Confirmar Compra</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form method="POST" action="enviar.php">
+                                        <form method="POST" action="enviar.php" id="form">
                                             <div class="modal-body">
                                                 <h4>
                                                     Confirma compra de: <br> <br>
 
                                                         <div class="formulario-api">
                                                             <label for="">Nombres</label> <br>
-                                                            <input type="text" name="nombre" class="form-control" placeholder="Ingrese Nombres"> <br>
+                                                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese Nombres"> <br>
                                                             <label for="">Telefono/Celular</label> <br>
-                                                            <input type="text" name="celular" class="form-control" placeholder="Ingrese Número"> <br>
+                                                            <input type="text" id="celular" name="celular" class="form-control" placeholder="Ingrese Número"> <br>
                                                         </div>
 
                                                     
