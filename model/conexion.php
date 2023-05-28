@@ -1,5 +1,5 @@
 <?php 
-$contrasena = "AVNS_ItjzLCW9UeVBkQftXKv"
+$contrasena = "AVNS_ItjzLCW9UeVBkQftXKv";
 $usuario = "doadmin";
 $nombre_bd = "defaultdb";
 
